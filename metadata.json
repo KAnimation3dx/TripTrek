@@ -1,0 +1,7 @@
+{
+  "name": "GeoRaksha",
+  "description": "A personal safety companion for tourists, providing real-time risk alerts, an emergency panic button, and a digital ID for a worry-free journey.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
