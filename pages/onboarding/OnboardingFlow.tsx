@@ -3,7 +3,7 @@ import { EmergencyContact } from '../../types';
 import { useAppContext } from '../../context/AppContext';
 import OnboardingCarousel from '../../components/OnboardingCarousel';
 
-type OnboardingStep = 'welcome' | 'location' | 'notifications' | 'id_activation' | 'manual_id' | 'final_setup';
+type OnboardingStep = 'welcome' | 'location' | 'notifications' | 'final_setup';
 
 const OnboardingFlow: React.FC = () => {
     const [step, setStep] = useState<OnboardingStep>('welcome');
@@ -46,7 +46,7 @@ const OnboardingFlow: React.FC = () => {
             onButtonClick: () => {
                 // In a real app, this triggers OS permission pop-up.
                 console.log("Notification permission requested");
-                setStep('id_activation');
+                setStep('final_setup');
             },
         }
     };
@@ -57,40 +57,6 @@ const OnboardingFlow: React.FC = () => {
             case 'location':
             case 'notifications':
                 return <OnboardingCarousel slide={slides[step]} />;
-            case 'id_activation':
-                return (
-                    <div className="flex flex-col items-center justify-between text-center p-8 h-full">
-                        <h2 className="text-3xl font-bold text-gray-800 mt-8">Activate Your Digital Tourist ID</h2>
-                        <div className="flex-grow flex flex-col items-center justify-center w-full">
-                            <div className="w-full max-w-xs h-64 bg-gray-900 rounded-lg flex items-center justify-center text-white flex-col mb-6">
-                                <p className="text-sm mb-2">Camera View</p>
-                                <div className="w-48 h-48 border-2 border-dashed border-gray-400"></div>
-                            </div>
-                            <p className="text-gray-600 mb-6">Please scan the QR code you received at the airport/hotel check-in.</p>
-                            <button onClick={() => { /* Simulate scan */ setStep('final_setup'); }} className="w-full bg-blue-600 text-white font-bold py-4 px-4 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                               Simulate Successful Scan
-                            </button>
-                            <button onClick={() => setStep('manual_id')} className="text-blue-600 font-semibold">
-                               Or Enter Your ID Manually
-                            </button>
-                        </div>
-                    </div>
-                );
-            case 'manual_id':
-                return (
-                     <div className="flex flex-col p-8 h-full">
-                        <h2 className="text-3xl font-bold text-gray-800 mt-8 mb-4">Enter Your ID</h2>
-                        <div className="flex-grow flex flex-col justify-center">
-                            <input type="text" placeholder="TID-XXXX-XXXX-XXXX" className="w-full p-4 border border-gray-300 rounded-lg mb-6 text-center text-lg"/>
-                            <button onClick={() => setStep('final_setup')} className="w-full bg-blue-600 text-white font-bold py-4 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                                Activate ID
-                            </button>
-                             <button onClick={() => setStep('id_activation')} className="mt-4 text-gray-600 font-semibold">
-                                Back to Scan
-                            </button>
-                        </div>
-                    </div>
-                );
             case 'final_setup':
                 return (
                     <div className="flex flex-col p-6 h-full overflow-y-auto">

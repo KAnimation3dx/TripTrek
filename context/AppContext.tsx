@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { User, EmergencyContact, Helpline, LocationState, UserLocation, ChatMessage } from '../types';
-import { MOCK_USER } from '../constants';
 import { useLocation } from '../hooks/useLocation';
 
 // This is a mock database stored in localStorage.
@@ -44,6 +43,7 @@ interface AppContextType {
   signup: (name: string, email: string, pass: string) => boolean;
   loginWithGoogle: () => void;
   logout: () => void;
+  createDigitalId: (details: { name: string; age: string; governmentId: string; country: string; state: string; gender: string; photoUrl: string; }) => void;
   completeOnboarding: (contacts: EmergencyContact[], tracking: boolean) => void;
   setPanicMode: (status: boolean) => void;
   addHelpline: (name: string, phone: string) => void;
@@ -163,7 +163,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       if (db.some((u: any) => u.email === email)) {
           return false; // User already exists
       }
-      const newUserProfile: User = { ...MOCK_USER, name, email };
+      const newUserProfile: User = { name, email };
       const newUserAccount = {
           email,
           password: pass, // In a real app, hash this!
@@ -198,6 +198,26 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setIsOnboarded(true);
   };
   
+  const createDigitalId = (details: { name: string; age: string; governmentId: string; country: string; state: string; gender: string; photoUrl: string; }) => {
+    if (!currentUser?.email) return;
+
+    const newTouristId = `TID-${Date.now().toString().slice(-8)}`;
+    const updatedProfile: User = {
+        ...currentUser,
+        name: details.name,
+        age: details.age,
+        governmentId: details.governmentId,
+        country: details.country,
+        state: details.state,
+        gender: details.gender,
+        photoUrl: details.photoUrl,
+        touristId: newTouristId,
+    };
+    
+    setCurrentUser(updatedProfile);
+    updateUserAccount(currentUser.email, { profile: updatedProfile });
+};
+
   const setPanicModeWrapper = (status: boolean) => {
     setIsPanicMode(status);
   }
@@ -265,6 +285,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const contextValue = { 
       isLoading, isAuthenticated, isOnboarded, isPanicMode, currentUser, emergencyContacts, helplines, userLocations, location, isChatOpen, isBotTyping, chatHistory,
       login, signup, loginWithGoogle, completeOnboarding, logout, 
+      createDigitalId,
       setPanicMode: setPanicModeWrapper, 
       addHelpline, removeHelpline, addUserLocation, removeUserLocation,
       toggleChat, sendChatMessage,

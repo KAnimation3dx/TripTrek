@@ -1,15 +1,6 @@
 
 import React from 'react';
-import { User, Alert } from './types';
-
-export const MOCK_USER: User = {
-  name: 'Alex Doe',
-  nationality: 'American',
-  touristId: 'TID-A8B4-Z9X1-C7V2',
-  validFrom: '2024-07-15',
-  validTo: '2024-08-15',
-  photoUrl: 'https://picsum.photos/200'
-};
+import { Alert, ItineraryItem } from './types';
 
 export const MOCK_ALERTS: Alert[] = [
   {
@@ -35,13 +26,13 @@ export const MOCK_ALERTS: Alert[] = [
   },
 ];
 
-export const MOCK_ITINERARY = [
-    "Day 1: Check-in Hotel Himalayan",
-    "Day 2: Tsomgo Lake Tour",
-    "Day 3: Gangtok City Tour - Rumtek Monastery",
-    "Day 4: Transfer to Pelling",
-    "Day 5: Pelling Sightseeing",
-    "Day 6: Departure"
+export const MOCK_ITINERARY: ItineraryItem[] = [
+    { day: 1, description: "Check-in Hotel Himalayan, Gangtok", lat: 27.3314, lon: 88.6158 },
+    { day: 2, description: "Tsomgo Lake Tour", lat: 27.3745, lon: 88.7621 },
+    { day: 3, description: "Gangtok City Tour - Rumtek Monastery", lat: 27.2795, lon: 88.5681 },
+    { day: 4, description: "Transfer to Pelling", lat: 27.3167, lon: 88.2333 },
+    { day: 5, description: "Pelling Sightseeing - Kanchenjunga Falls", lat: 27.2792, lon: 88.2256 },
+    { day: 6, description: "Departure from Bagdogra Airport", lat: 26.6811, lon: 88.3275 }
 ];
 
 

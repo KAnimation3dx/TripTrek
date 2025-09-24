@@ -1,11 +1,13 @@
 export interface User {
   name: string;
-  nationality: string;
-  touristId: string;
-  validFrom: string;
-  validTo:string;
-  photoUrl: string;
   email?: string; // Added for authentication
+  age?: string;
+  governmentId?: string;
+  country?: string;
+  state?: string;
+  gender?: string;
+  photoUrl?: string;
+  touristId?: string;
 }
 
 export interface EmergencyContact {
@@ -42,4 +44,11 @@ export interface UserLocation {
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
+}
+
+export interface ItineraryItem {
+  day: number;
+  description: string;
+  lat: number;
+  lon: number;
 }
